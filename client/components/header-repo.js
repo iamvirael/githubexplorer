@@ -7,15 +7,15 @@ const HeaderRepo = (props) => {
   const { username, reponame } = props
   return (
     <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6 text-white font-bold">
-      <div className="flex items-center flex-shrink-0 mr-6 ">
-        <div id="repository-name">{reponame}</div>
+      <div id="repository-name">{reponame}</div>
+      <div className="flex justify-end">
+        <Link id="go-back" className="mr-6" to="/">
+          Go Home
+        </Link>
+        <Link id="go-repository-list" to={`/${username}`}>
+          Go Back
+        </Link>
       </div>
-      <Link id="go-back" to="/">
-        Go Home
-      </Link>
-      <Link id="go-repository-list" to={`/${username}`}>
-        Go Back
-      </Link>
     </nav>
   )
 }
