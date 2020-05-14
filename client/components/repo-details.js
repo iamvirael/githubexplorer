@@ -6,7 +6,7 @@ import Markdown from 'markdown-to-jsx'
 import axios from 'axios'
 import Head from './head'
 
-import HeaderRepo from './header-repo'
+import Header from './header'
 
 const RepoDetails = () => {
   const { username, repositoryname } = useParams()
@@ -31,7 +31,7 @@ const RepoDetails = () => {
   return (
     <div>
       <Head title={repositoryname} />
-      <HeaderRepo reponame={repositoryname} username={username} />
+      <Header reponame={repositoryname} name={username} />
       <div className="mb-4" />
       <div className="px-22 ml-10 mr-10 mb-4 ">
         <div className="rounded-lg border shadow-lg px-3 bg-teal-300 mb-4">
@@ -46,7 +46,7 @@ const RepoDetails = () => {
           <div className="border-b border-b-2 border-teal-500 py-2 mb-2">
             <div className="mb-2 text-bold">README</div>
           </div>
-          <div id="#description">
+          <div id="description">
             <Markdown className="mb-4">{readMe}</Markdown>
           </div>
         </div>

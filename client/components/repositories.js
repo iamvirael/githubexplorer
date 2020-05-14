@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import axios from 'axios'
 
 import Head from './head'
-import HeaderRepos from './header-repos'
+import Header from './header'
 import Repo from './repo'
 
 const Repositories = () => {
@@ -22,7 +22,7 @@ const Repositories = () => {
   return (
     <div>
       <Head title="Repositories" />
-      <HeaderRepos name={username} />
+      <Header name={username} />
       <div className="mb-4" />
       {repos.map((repo) => {
         return <Repo repo={repo} username={username} />
