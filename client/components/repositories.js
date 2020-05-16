@@ -25,7 +25,11 @@ const Repositories = () => {
       <Header name={username} />
       <div className="mb-4" />
       {repos.map((repo) => {
-        return <Repo repo={repo} username={username} />
+        return (
+          <div key={repo}>
+            <Repo repo={repo} username={username} />
+          </div>
+        )
       })}
     </div>
   )
