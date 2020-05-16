@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Markdown from 'markdown-to-jsx'
+// import Markdown from 'markdown-to-jsx'
+import parse from 'html-react-parser'
 import axios from 'axios'
 import Head from './head'
 
@@ -22,9 +23,13 @@ const RepoDetails = () => {
   const [readMe, setReadMe] = useState('')
 
   useEffect(() => {
-    axios.get(`https://api.github.com/repos/${username}/${repositoryname}/readme`).then((it) => {
-      setReadMe(atob(it.data.content))
-    })
+    const headers = { Accept: 'application/vnd.github.VERSION.html' }
+    axios
+      .get(`https://api.github.com/repos/${username}/${repositoryname}/readme`, {
+        param: {},
+        headers
+      })
+      .then((it) => setReadMe(it.data))
     return () => {}
   }, [username, repositoryname])
 
@@ -46,9 +51,7 @@ const RepoDetails = () => {
           <div className="border-b border-b-2 border-teal-500 py-2 mb-2">
             <div className="mb-2 text-bold">README</div>
           </div>
-          <div id="description">
-            <Markdown className="mb-4">{readMe}</Markdown>
-          </div>
+          <div id="description">{parse(readMe)}</div>
         </div>
       </div>
     </div>

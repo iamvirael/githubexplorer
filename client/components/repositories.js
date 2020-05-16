@@ -21,7 +21,7 @@ const Repositories = () => {
 
   return (
     <div>
-      <Head title="Repositories" />
+      <Head title={username} />
       <Header name={username} />
       <div className="mb-4" />
       {repos.map((repo) => {
