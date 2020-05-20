@@ -1,33 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import axios from 'axios'
 
 import Head from './head'
-import Header from './header'
 import Repo from './repo'
 
-const Repositories = () => {
-  const { username } = useParams()
-  const [repos, setRepos] = useState([])
-
-  useEffect(() => {
-    axios.get(`https://api.github.com/users/${username}/repos`).then((it) => {
-      setRepos(it.data.map((repo) => repo.name))
-    })
-    return () => {}
-  }, [username])
-
+const Repositories = (props) => {
+  const { name, list } = props
   return (
     <div>
-      <Head title={username} />
-      <Header name={username} />
+      <Head title={name} />
       <div className="mb-4" />
-      {repos.map((repo) => {
+      {list.map((repo) => {
         return (
           <div key={repo}>
-            <Repo repo={repo} username={username} />
+            <Repo repo={repo} username={name} />
           </div>
         )
       })}

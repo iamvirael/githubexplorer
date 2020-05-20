@@ -1,49 +1,81 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Switch, Route, useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Head from './head'
+import axios from 'axios'
+import Header from './header'
+import InputView from './input-view'
+import Repositories from './repositories'
+import RepoDetails from './repo-details'
+import DummyComponent from './dummy-view'
 
 const Home = () => {
-  const [username, setUserName] = useState('')
-  const history = useHistory()
+  const { username, repositoryname } = useParams()
+  const [repos, setRepos] = useState([])
 
-  const handleClick = () => {
-    history.push(`/${username}`)
-  }
+  useEffect(() => {
+    if (typeof username !== 'undefined') {
+      axios.get(`https://api.github.com/users/${username}/repos`).then((it) => {
+        setRepos(it.data.map((repo) => repo.name))
+      })
+    }
+    return () => {}
+  }, [username])
 
-  const handleChange = (e) => {
-    setUserName(e.target.value)
-  }
+  const [readMe, setReadMe] = useState('')
+
+  useEffect(() => {
+    if (typeof username !== 'undefined' && typeof repositoryname !== 'undefined') {
+      const headers = { Accept: 'application/vnd.github.VERSION.raw' }
+      axios
+        .get(`https://api.github.com/repos/${username}/${repositoryname}/readme`, {
+          param: {},
+          headers
+        })
+        .then((it) => setReadMe(it.data))
+    }
+    return () => {}
+  }, [username, repositoryname])
+
+  const [avatarUrl, setAvatar] = useState('')
+  useEffect(() => {
+    if (typeof username !== 'undefined') {
+      axios
+        .get(`https://api.github.com/users/${username}`)
+        .then(({ data }) => data.avatar_url)
+        .then((url) => {
+          setAvatar(url)
+        })
+    }
+    return () => {}
+  }, [username])
+
+  const [desc, setDesc] = useState('')
+
+  useEffect(() => {
+    axios.get(`https://api.github.com/repos/${username}/${repositoryname}`).then((it) => {
+      setDesc(it.data.description)
+    })
+    return () => {}
+  }, [username, repositoryname])
 
   return (
     <div>
-      <Head title="Hello" />
-      <div className="flex items-center justify-center h-screen">
-        <div className="bg-teal-300 text-white font-bold rounded-lg border shadow-lg p-10">
-          <form className="w-full max-w-sm">
-            <div className="flex items-center border-b border-b-2 border-teal-500 py-2">
-              <input
-                className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                type="text"
-                placeholder="Username"
-                aria-label="Full name"
-                id="input-field"
-                value={username}
-                onChange={handleChange}
-              />
-              <button
-                className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
-                type="button"
-                id="search-button"
-                onClick={handleClick}
-              >
-                Explore
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <Header avatar={avatarUrl} />
+      <Switch>
+        <Route exact path="/" component={() => <InputView />} />
+        <Route
+          exact
+          path="/:username"
+          component={() => <Repositories list={repos} name={username} />}
+        />
+        <Route
+          exact
+          path="/:username/:repositoryname"
+          component={() => <RepoDetails readMe={readMe} name={repositoryname} desc={desc} />}
+        />
+        <Route exact path="/*" component={() => <DummyComponent />} />
+      </Switch>
     </div>
   )
 }

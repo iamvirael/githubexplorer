@@ -9,12 +9,10 @@ import { bindActionCreators } from 'redux'
 import store, { history } from '../redux'
 
 import Home from '../components/home'
-import Repositories from '../components/repositories'
-import RepoDetails from '../components/repo-details'
-import DummyView from '../components/dummy-view'
 import NotFound from '../components/404'
 
 import Startup from './startup'
+import dummyView from '../components/dummy-view'
 
 const OnlyAnonymousRoute = ({ component: Component, ...rest }) => {
   const func = (props) =>
@@ -85,9 +83,9 @@ export default (props) => {
         <StartupConnected>
           <Switch>
             <Route exact path="/" component={() => <Home />} />
-            <Route exact path="/:username" component={() => <Repositories />} />
-            <Route exact path="/:username/:repositoryname" component={() => <RepoDetails />} />
-            <PrivateRouteConnected exact path="/hidden-route" component={() => <DummyView />} />
+            <Route exact path="/:username" component={() => <Home />} />
+            <Route exact path="/:username/:repositoryname" component={() => <Home />} />
+            <PrivateRouteConnected exact path="/hidden-route" component={() => <dummyView />} />
             <Route component={() => <NotFound />} />
           </Switch>
         </StartupConnected>
