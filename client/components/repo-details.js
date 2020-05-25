@@ -16,7 +16,7 @@ const RepoDetails = (props) => {
             <div className="border-b border-b-2 border-teal-500 py-2 mb-2">
               <div className="mb-2 text-bold">Description</div>
             </div>
-            <div id="description" className="mb-4">
+            <div id="repo-desc" className="mb-4">
               {desc}
             </div>
           </div>

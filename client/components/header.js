@@ -5,13 +5,14 @@ import { bindActionCreators } from 'redux'
 
 const Header = (props) => {
   const { username, repositoryname } = useParams()
+  const { avatar } = props
 
   return (
     <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6 text-white font-bold">
       <div className="flex justify-start items-center flex-shrink-0 mr-6">
-        {username && (
+        {avatar && (
           <img
-            src={props.avatar}
+            src={avatar}
             className="inline-block h-10 w-10 rounded-full text-white shadow-solid mr-2"
             alt="UserName"
           />
