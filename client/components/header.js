@@ -22,12 +22,12 @@ const Header = (props) => {
       <div className="flex justify-end">
         {username && (
           <Link id="go-back" to="/" className="mr-3">
-            Go Back
+            Home
           </Link>
         )}
         {repositoryname && (
           <Link id="go-repository-list" to={`/${username}`}>
-            Go Repositories
+            Repositories List
           </Link>
         )}
       </div>
