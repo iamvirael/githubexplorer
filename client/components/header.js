@@ -17,7 +17,7 @@ const Header = (props) => {
             alt="UserName"
           />
         )}
-        <div id="repository-name">{repositoryname || username || 'Welcome'}</div>
+        <div id="repository-name">{repositoryname || username || 'Kuku'}</div>
       </div>
       <div className="flex justify-end">
         {username && (
